@@ -21,6 +21,9 @@ package io.github.dretacbe.jdacommands.arguments;
 import io.github.dretacbe.jdacommands.arguments.types.ArgumentType;
 import lombok.Getter;
 
+/**
+ * Represents an argument.
+ */
 public abstract class Argument {
     @Getter
     private final String name;

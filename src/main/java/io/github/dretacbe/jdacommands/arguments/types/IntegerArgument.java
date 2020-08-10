@@ -20,6 +20,9 @@ package io.github.dretacbe.jdacommands.arguments.types;
 
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 
+/**
+ * Represents an integer argument.
+ */
 public class IntegerArgument implements ArgumentType<Integer> {
     @Override
     public Integer parse(String[] args, String name, int start) throws ArgumentParseException {

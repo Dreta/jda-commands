@@ -18,11 +18,12 @@
 
 package io.github.dretacbe.jdacommands.arguments.types;
 
-import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
-
+/**
+ * Represents a string argument.
+ */
 public class StringArgument implements ArgumentType<String> {
     @Override
-    public String parse(String[] args, String name, int start) throws ArgumentParseException {
+    public String parse(String[] args, String name, int start) {
         return args[start];
     }
 }

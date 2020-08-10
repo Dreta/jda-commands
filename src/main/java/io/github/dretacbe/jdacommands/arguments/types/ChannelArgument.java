@@ -22,6 +22,9 @@ import io.github.dretacbe.jdacommands.Command;
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
+/**
+ * Represents a channel argument that can be fetched from a #channel-name mention.
+ */
 public class ChannelArgument implements ArgumentType<GuildChannel> {
     @Override
     public GuildChannel parse(String[] args, String name, int start) throws ArgumentParseException {

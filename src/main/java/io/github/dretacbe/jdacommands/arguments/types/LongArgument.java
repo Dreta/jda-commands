@@ -20,6 +20,9 @@ package io.github.dretacbe.jdacommands.arguments.types;
 
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 
+/**
+ * Represents a long argument.
+ */
 public class LongArgument implements ArgumentType<Long> {
     @Override
     public Long parse(String[] args, String name, int start) throws ArgumentParseException {

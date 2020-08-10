@@ -20,6 +20,9 @@ package io.github.dretacbe.jdacommands.arguments.types;
 
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 
+/**
+ * Represents a double argument.
+ */
 public class DoubleArgument implements ArgumentType<Double> {
     @Override
     public Double parse(String[] args, String name, int start) throws ArgumentParseException {

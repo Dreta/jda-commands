@@ -18,13 +18,15 @@
 
 package io.github.dretacbe.jdacommands.arguments.types;
 
-import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
-
 import java.util.Arrays;
 
+/**
+ * Represents a string argument that extends until the end of the message.
+ * Must not have trailing arguments.
+ */
 public class GreedyStringArgument implements ArgumentType<String> {
     @Override
-    public String parse(String[] args, String name, int start) throws ArgumentParseException {
+    public String parse(String[] args, String name, int start) {
         return String.join(" ", Arrays.copyOfRange(args, start, args.length - 1));
     }
 }

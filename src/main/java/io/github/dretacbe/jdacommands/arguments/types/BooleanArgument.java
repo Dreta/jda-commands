@@ -20,6 +20,9 @@ package io.github.dretacbe.jdacommands.arguments.types;
 
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 
+/**
+ * Represents a boolean argument.
+ */
 public class BooleanArgument implements ArgumentType<Boolean> {
     public Boolean parse(String[] args, String name, int start) throws ArgumentParseException {
         String s = args[start].toLowerCase();

@@ -18,6 +18,11 @@
 
 package io.github.dretacbe.jdacommands.arguments;
 
+/**
+ * Represents an error when parsing failed.
+ * The {@link io.github.dretacbe.jdacommands.arguments.types.ArgumentType#parse} method will NOT throw
+ * any errors except of this one.
+ */
 public class ArgumentParseException extends Exception {
     public ArgumentParseException(String message) {
         super(message);

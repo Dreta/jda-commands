@@ -22,6 +22,9 @@ import io.github.dretacbe.jdacommands.Command;
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 import net.dv8tion.jda.api.entities.Member;
 
+/**
+ * Represents a member argument that can be fetched from a @username#discriminator mention.
+ */
 public class MemberArgument implements ArgumentType<Member> {
     @Override
     public Member parse(String[] args, String name, int start) throws ArgumentParseException {
