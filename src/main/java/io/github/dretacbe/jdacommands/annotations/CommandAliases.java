@@ -16,23 +16,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.dretacbe.jdacommands.arguments;
+package io.github.dretacbe.jdacommands.annotations;
 
-import io.github.dretacbe.jdacommands.arguments.types.ArgumentType;
-import lombok.Getter;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Represents an argument.
+ * If you annotate any subclass of {@link io.github.dretacbe.jdacommands.Command} with this annotation, then the exact command
+ * will be mirrored for all of the specified aliases.
  */
-public class Argument {
-    @Getter
-    private final String name;
-
-    @Getter
-    private final ArgumentType<?> type;
-
-    public Argument(String name, ArgumentType<?> type) {
-        this.name = name;
-        this.type = type;
-    }
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface CommandAliases {
+    String[] value();
 }

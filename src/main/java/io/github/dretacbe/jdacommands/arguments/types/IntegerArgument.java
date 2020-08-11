@@ -24,10 +24,29 @@ import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
  * Represents an integer argument.
  */
 public class IntegerArgument implements ArgumentType<Integer> {
+    private int min = Integer.MIN_VALUE;
+    private int max = Integer.MAX_VALUE;
+
+    public IntegerArgument() {
+    }
+
+    public IntegerArgument(int max) {
+        this.max = max;
+    }
+
+    public IntegerArgument(int min, int max) {
+        this.min = min;
+        this.max = max;
+    }
+
     @Override
     public Integer parse(String[] args, String name, int start) throws ArgumentParseException {
         try {
-            return Integer.parseInt(args[start]);
+            int i = Integer.parseInt(args[start]);
+            if (i > max || i < min) {
+                throw new ArgumentParseException("Argument " + name + " must be between " + min + " and " + max + ", however it is " + i + ".");
+            }
+            return i;
         } catch (NumberFormatException e) {
             throw new ArgumentParseException("Argument " + name + " must be a valid integer!");
         }

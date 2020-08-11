@@ -24,10 +24,29 @@ import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
  * Represents a double argument.
  */
 public class DoubleArgument implements ArgumentType<Double> {
+    private double max = Double.MAX_VALUE;
+    private double min = Double.MIN_VALUE;
+
+    public DoubleArgument() {
+    }
+
+    public DoubleArgument(double max) {
+        this.max = max;
+    }
+
+    public DoubleArgument(double min, double max) {
+        this.min = min;
+        this.max = max;
+    }
+
     @Override
     public Double parse(String[] args, String name, int start) throws ArgumentParseException {
         try {
-            return Double.parseDouble(args[start]);
+            double d = Double.parseDouble(args[start]);
+            if (d > max || d < min) {
+                throw new ArgumentParseException("Argument " + name + " must be between " + min + " and " + max + ", however it is " + d + ".");
+            }
+            return d;
         } catch (NumberFormatException e) {
             throw new ArgumentParseException("Argument " + name + " must be a valid number!");
         }

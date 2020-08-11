@@ -20,12 +20,29 @@ package io.github.dretacbe.jdacommands.arguments.types;
 
 import io.github.dretacbe.jdacommands.Command;
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
+import lombok.Getter;
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.GuildChannel;
 
 /**
  * Represents a channel argument that can be fetched from a #channel-name mention.
  */
 public class ChannelArgument implements ArgumentType<GuildChannel> {
+    @Getter
+    private Category category;
+
+    public ChannelArgument() {
+    }
+
+    /**
+     * Constructor
+     *
+     * @param category The category the parsed channel must be in
+     */
+    public ChannelArgument(Category category) {
+        this.category = category;
+    }
+
     @Override
     public GuildChannel parse(String[] args, String name, int start) throws ArgumentParseException {
         String snowflake = args[start].replaceFirst("<#", "").replace(">", "");
@@ -33,6 +50,9 @@ public class ChannelArgument implements ArgumentType<GuildChannel> {
         if (channel == null) {
             // In this case the user must have directly mentioned a channel (Sending <#channel snowflake>)
             throw new ArgumentParseException("Argument " + name + " refers to a non-existent channel!");
+        }
+        if (category != null && (channel.getParent() == null || channel.getParent().getIdLong() != category.getIdLong())) {
+            throw new ArgumentParseException("Category must be " + category.getName() + " for argument " + name);
         }
         return channel;
     }

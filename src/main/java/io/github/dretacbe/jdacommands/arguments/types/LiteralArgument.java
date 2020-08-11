@@ -21,34 +21,18 @@ package io.github.dretacbe.jdacommands.arguments.types;
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 
 /**
- * Represents a long argument.
+ * Represents something that you must type in exactly. This is often used to differentiate between
+ * different sub commands.
+ * <p>
+ * By default the literal string will NOT be passed into the arguments of the calling method
+ * unless specified by (INSERT ANNOTATION REFERENCE)
  */
-public class LongArgument implements ArgumentType<Long> {
-    private long min = Long.MIN_VALUE;
-    private long max = Long.MAX_VALUE;
-
-    public LongArgument() {
-    }
-
-    public LongArgument(long max) {
-        this.max = max;
-    }
-
-    public LongArgument(long min, long max) {
-        this.min = min;
-        this.max = max;
-    }
-
+public class LiteralArgument implements ArgumentType<String> {
     @Override
-    public Long parse(String[] args, String name, int start) throws ArgumentParseException {
-        try {
-            long l = Long.parseLong(args[start]);
-            if (l > max || l < min) {
-                throw new ArgumentParseException("Argument " + name + " must be between " + min + " and " + max + ", however it is " + l + ".");
-            }
-            return l;
-        } catch (NumberFormatException e) {
-            throw new ArgumentParseException("Argument " + name + " must be a valid integer!");
+    public String parse(String[] args, String name, int start) throws ArgumentParseException {
+        if (!args[start].equalsIgnoreCase(name)) {
+            throw new ArgumentParseException("Incorrect literal in argument!");
         }
+        return name;
     }
 }
