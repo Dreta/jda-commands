@@ -45,7 +45,7 @@ public class PingCommand extends Command {
     public void me(Message message) {
         message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!");
     }
-
+.
     @CommandPath("you")
     public void you(Message message, Member who) {
         message.getTextChannel().sendMessage(who.getAsMention() + ", pong!");
