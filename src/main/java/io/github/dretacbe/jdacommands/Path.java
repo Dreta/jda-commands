@@ -81,7 +81,7 @@ public class Path {
      * @return The method, null if not found.
      */
     @Nullable
-    public static Method tryFindMethod(String name, Class<? extends Command> clazz) {
+    public static Method tryFindMethod(String name, Class<?> clazz) {
         for (Method method : clazz.getDeclaredMethods()) {
             if (method.isAnnotationPresent(CommandPath.class) && method.getAnnotation(CommandPath.class).value().equals(name)) {
                 return method;
