@@ -43,12 +43,12 @@ public class PingCommand extends Command {
 
     @CommandPath("me")
     public void me(Message message) {  // Can also be static if desired.
-        message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!");
+        message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!").queue();
     }
 
     @CommandPath("you")
     public void you(Message message, Member who) {
-        message.getTextChannel().sendMessage(who.getAsMention() + ", pong!");
+        message.getTextChannel().sendMessage(who.getAsMention() + ", pong!").queue();
     }
 }
 ```
@@ -69,7 +69,7 @@ I can also use multiple classes for one command, which might be better when I ha
 public class PingYou {
     @CommandPath("you")
     public void you(Message message, Member who) {
-        message.getTextChannel().sendMessage(who.getAsMention() + ", pong!");
+        message.getTextChannel().sendMessage(who.getAsMention() + ", pong!").queue();
     }
 }
 
@@ -93,7 +93,7 @@ public class PingCommand extends Command {
 
     @CommandPath("me")
     public void me(Message message) {  // Can also be static if desired.
-        message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!");
+        message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!").queue();
     }
 }
 ```
