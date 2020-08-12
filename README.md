@@ -42,10 +42,10 @@ public class PingCommand extends Command {
     }
 
     @CommandPath("me")
-    public void me(Message message) {
+    public void me(Message message) {  // Can also be static if desired.
         message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!");
     }
-.
+
     @CommandPath("you")
     public void you(Message message, Member who) {
         message.getTextChannel().sendMessage(who.getAsMention() + ", pong!");
@@ -58,3 +58,54 @@ Now if I run `!ping`, `@Dreta#6665, pong!` will be sent.
 If I run `!ping @aberdeener#0001`, `@aberdeener#0001, pong!` will be sent.
 
 This might be way too overkill for a small command, however it will keep your code more maintainable if the command becomes more complex.
+
+## Advanced Usage
+
+I can also use multiple classes for one command, which might be better when I have a giant command that has a lot of sub commands. For example:
+```java
+// We will use the ping command shown in the previous example and move the "you"
+// path into a separate class.
+
+public class PingYou {
+    @CommandPath("you")
+    public void you(Message message, Member who) {
+        message.getTextChannel().sendMessage(who.getAsMention() + ", pong!");
+    }
+}
+
+@CommandRoot(  // Mandatory
+    name = "ping",  // Mandatory
+    description = "Ping ping ping!"  // Optional
+)
+@CommandChannel(  // Optional
+    value = "channel snowflake",  // Optional
+    allowDM = true  // Optional
+)
+@CommandPermissions({Permission.MESSAGE_READ, Permission.MESSAGE_WRITE})  // Optional
+@CommandAliases("pong")  // Optional
+public class PingCommand extends Command {
+    public PingCommand() {
+        addPath("me", Collections.emptyList());
+        addPath("you", PingYou.class, Collections.singletonList(
+            new Argument("who", new MemberArgument())
+        ));
+    }
+
+    @CommandPath("me")
+    public void me(Message message) {  // Can also be static if desired.
+        message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!");
+    }
+}
+```
+
+As you can see, I can specify the exact class to find methods in when adding paths to the command. Try making the path "me" into a separate class as well!
+
+For a runnable bot you can play around with, go to [Dretacbe](https://github.com/Dretacbe)/**[jda-commands-example](https://github.com/Dretacbe/jda-commands-example)**
+
+## Compiling
+
+Just so you know, jda-commands uses Maven 3 for that.
+
+```bash
+mvn clean install
+```

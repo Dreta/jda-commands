@@ -95,7 +95,21 @@ public abstract class Command {
         if (paths.containsKey(path)) {
             throw new IllegalStateException("Duplicate path name");
         }
-        paths.put(path, new Path(path, arguments, this));
+        paths.put(path, new Path(path, arguments, this, Path.tryFindMethod(path, getClass())));
+    }
+
+    /**
+     * Add a path to the command.
+     *
+     * @param path      The path name - must be the same with {@link io.github.dretacbe.jdacommands.annotations.CommandPath#value}.
+     * @param clazz     The class name of where to find the method. This can be used for spanning commands over multiple classes.
+     * @param arguments The arguments of the path.
+     */
+    public void addPath(String path, Class<? extends Command> clazz, List<Argument> arguments) {
+        if (paths.containsKey(path)) {
+            throw new IllegalStateException("Duplicate path name");
+        }
+        paths.put(path, new Path(path, arguments, this, Path.tryFindMethod(path, clazz)));
     }
 
     /**
