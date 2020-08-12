@@ -12,7 +12,7 @@ You need to add `new CommandListener()` listener to your `JDA` before the comman
 I will need to initialize jda-commands after that. Example:
 ```java
 Command.init(
-    new Options.OptionsBuilder()
+    Options.builder()
         .prefix("!")
         .guild(some guild object)
         .build()
@@ -51,6 +51,12 @@ public class PingCommand extends Command {
         message.getTextChannel().sendMessage(who.getAsMention() + ", pong!").queue();
     }
 }
+```
+
+After done creating the commands, I will need to `new` them. Keep in mind that `new`ing the commands must be done after `init`ing the API.
+
+```java
+new PingCommand();
 ```
 
 Now if I run `!ping`, `@Dreta#6665, pong!` will be sent.
@@ -99,6 +105,8 @@ public class PingCommand extends Command {
 ```
 
 As you can see, I can specify the exact class to find methods in when adding paths to the command. Try making the path "me" into a separate class as well!
+
+I won't need to `new` to other class, which is `PingYou` in this case.
 
 For a runnable bot you can play around with, go to [Dretacbe](https://github.com/Dretacbe)/**[jda-commands-example](https://github.com/Dretacbe/jda-commands-example)**
 
