@@ -98,7 +98,7 @@ public class Path {
      * @throws ArgumentParseException When parsing went wrong
      */
     public List<Object> parse(Member member, Message message) throws ArgumentParseException {
-        String command = message.getContentRaw();
+        String command = message.getContentRaw().trim();
         if (memberPreprocessor != null) {
             String prep = memberPreprocessor.apply(member);
             if (prep != null) {
@@ -112,7 +112,7 @@ public class Path {
                 throw new ArgumentParseException(Command.getOptions().getErrorDM());
             }
             if (!annotation.value().isEmpty() && !message.getChannel().getId().equals(annotation.value())) {
-                throw new ArgumentParseException(String.format(Command.getOptions().getErrorChannel(), Command.getGuild().getGuildChannelById(annotation.value()).getName()));
+                throw new ArgumentParseException(String.format(Command.getOptions().getErrorChannel(), Command.getOptions().getGuild().getGuildChannelById(annotation.value()).getName()));
             }
         }
 

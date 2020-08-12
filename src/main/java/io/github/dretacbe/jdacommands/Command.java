@@ -59,8 +59,6 @@ public abstract class Command {
     @Getter
     private static final List<Command> commands = new ArrayList<>();
     @Getter
-    private static Guild guild;
-    @Getter
     private static Options options;
     @Getter
     private final Map<String, Path> paths = new HashMap<>();
@@ -86,7 +84,6 @@ public abstract class Command {
      * @param options The options
      */
     public static void init(Options options) {
-        guild = options.getGuild();
         Command.options = options;
     }
 
@@ -200,7 +197,7 @@ public abstract class Command {
     @Nullable
     public GuildChannel getChannel() {
         if (getClass().isAnnotationPresent(CommandChannel.class)) {
-            return getGuild().getGuildChannelById(getClass().getAnnotation(CommandChannel.class).value());
+            return getOptions().getGuild().getGuildChannelById(getClass().getAnnotation(CommandChannel.class).value());
         }
         return null;
     }

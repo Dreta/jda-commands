@@ -46,7 +46,7 @@ public class ChannelArgument implements ArgumentType<GuildChannel> {
     @Override
     public GuildChannel parse(String[] args, String name, int start) throws ArgumentParseException {
         String snowflake = args[start].replaceFirst("<#", "").replace(">", "");
-        GuildChannel channel = Command.getGuild().getGuildChannelById(snowflake);
+        GuildChannel channel = Command.getOptions().getGuild().getGuildChannelById(snowflake);
         if (channel == null) {
             // In this case the user must have directly mentioned a channel (Sending <#channel snowflake>)
             throw new ArgumentParseException("Argument " + name + " refers to a non-existent channel!");

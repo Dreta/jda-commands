@@ -20,7 +20,6 @@ package io.github.dretacbe.jdacommands;
 
 import io.github.dretacbe.jdacommands.annotations.CommandChannel;
 import io.github.dretacbe.jdacommands.annotations.CommandPermissions;
-import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.GuildChannel;
@@ -69,7 +68,7 @@ public class CommandListener extends ListenerAdapter {
                         }
                         if (!annotation.value().isEmpty() && !e.getMessage().getChannel().getId().equals(annotation.value())) {
                             Command.sendError(e.getMessage().getTextChannel(),
-                                    String.format(Command.getOptions().getErrorChannel(), Command.getGuild().getGuildChannelById(annotation.value()).getName())).queue();
+                                    String.format(Command.getOptions().getErrorChannel(), Command.getOptions().getGuild().getGuildChannelById(annotation.value()).getName())).queue();
                             return;
                         }
                     }
@@ -96,15 +95,16 @@ public class CommandListener extends ListenerAdapter {
 
                     Exception lastError = null;
                     for (Path path : command.getPaths().values()) {
+                        if (e.getMessage().getContentRaw().trim().split(" ").length - 1 > path.getArguments().size()) {
+                            continue;  // We always match the one with the most arguments
+                        }
                         try {
                             List<Object> result = path.parse(member, e.getMessage());
                             path.getMethod().setAccessible(true);
                             path.getMethod().invoke(null, result.toArray());
                             return;
                         } catch (Exception ex) {
-                            if (!(ex instanceof ArgumentParseException)) {
-                                ex.printStackTrace();
-                            }
+                            ex.printStackTrace();
                             lastError = ex;
                         }
                     }

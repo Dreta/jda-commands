@@ -29,7 +29,7 @@ public class MemberArgument implements ArgumentType<Member> {
     @Override
     public Member parse(String[] args, String name, int start) throws ArgumentParseException {
         String snowflake = args[start].replaceFirst("<@", "").replace(">", "");
-        Member member = Command.getGuild().getMemberById(snowflake);
+        Member member = Command.getOptions().getGuild().getMemberById(snowflake);
         if (member == null) {
             // In this case the user must have directly mentioned a member (Sending <@channel snowflake>)
             throw new ArgumentParseException("Argument " + name + " refers to a non-existent member!");
