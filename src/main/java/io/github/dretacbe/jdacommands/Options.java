@@ -19,10 +19,14 @@
 package io.github.dretacbe.jdacommands;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import net.dv8tion.jda.api.entities.Guild;
 
 @Builder
+@ToString
+@EqualsAndHashCode
 public class Options {
     /**
      * The prefix before all error messages - will not be included in embeds

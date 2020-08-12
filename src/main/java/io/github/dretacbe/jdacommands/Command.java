@@ -23,7 +23,9 @@ import io.github.dretacbe.jdacommands.annotations.CommandChannel;
 import io.github.dretacbe.jdacommands.annotations.CommandPermissions;
 import io.github.dretacbe.jdacommands.annotations.CommandRoot;
 import io.github.dretacbe.jdacommands.arguments.Argument;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
@@ -42,6 +44,7 @@ import java.util.function.Function;
  * initialize the API. A non-initialized API might throw exceptions.
  * The {@link net.dv8tion.jda.api.JDA} object MUST have the gateway intent {@link net.dv8tion.jda.api.requests.GatewayIntent#GUILD_MESSAGES}
  * and optionally {@link net.dv8tion.jda.api.requests.GatewayIntent#DIRECT_MESSAGES}
+ * The method must be static at all times to force good code design.
  * <p>
  * For an example, see README.md.
  *
@@ -50,6 +53,8 @@ import java.util.function.Function;
  * There can only be ONE path that matches a condition at ONE time. So there cannot be two exact same
  * paths with only the argument-type specific options different. Only one will be used.
  */
+@ToString
+@EqualsAndHashCode
 public abstract class Command {
     @Getter
     private static final List<Command> commands = new ArrayList<>();

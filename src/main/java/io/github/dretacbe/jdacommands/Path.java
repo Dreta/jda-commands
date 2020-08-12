@@ -62,7 +62,6 @@ public class Path {
         Preconditions.checkNotNull(command, "command");
         Preconditions.checkArgument(command.getClass().isAnnotationPresent(CommandRoot.class), "@CommandRoot required");
         Preconditions.checkNotNull(method, "method");
-        Preconditions.checkArgument(method.isAccessible(), "Couldn't access method");
         this.name = name;
         for (Argument argument : arguments) {
             if (argument.getType().getClass() == GreedyStringArgument.class && arguments.get(arguments.size() - 1).getType().getClass() != GreedyStringArgument.class) {

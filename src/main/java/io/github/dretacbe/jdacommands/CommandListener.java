@@ -20,6 +20,7 @@ package io.github.dretacbe.jdacommands;
 
 import io.github.dretacbe.jdacommands.annotations.CommandChannel;
 import io.github.dretacbe.jdacommands.annotations.CommandPermissions;
+import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.GuildChannel;
@@ -88,7 +89,7 @@ public class CommandListener extends ListenerAdapter {
                         }
                         if (!member.hasPermission((GuildChannel) e.getMessage().getChannel(), channelPerms)) {
                             Command.sendError(e.getMessage().getTextChannel(), String.format(Command.getOptions().getErrorChannelPermissions(),
-                                    Arrays.stream(serverPerms).map(Permission::getName).collect(Collectors.joining(", ")))).queue();
+                                    Arrays.stream(channelPerms).map(Permission::getName).collect(Collectors.joining(", ")))).queue();
                             return;
                         }
                     }
@@ -97,16 +98,20 @@ public class CommandListener extends ListenerAdapter {
                     for (Path path : command.getPaths().values()) {
                         try {
                             List<Object> result = path.parse(member, e.getMessage());
-                            path.getMethod().invoke(this, result);
+                            path.getMethod().setAccessible(true);
+                            path.getMethod().invoke(null, result.toArray());
                             return;
                         } catch (Exception ex) {
+                            if (!(ex instanceof ArgumentParseException)) {
+                                ex.printStackTrace();
+                            }
                             lastError = ex;
                         }
                     }
                     if (lastError == null) {
                         Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorUsage()).queue();
                     } else {
-                        Command.sendError(e.getMessage().getTextChannel(), lastError.getMessage());
+                        Command.sendError(e.getMessage().getTextChannel(), lastError.getMessage()).queue();
                     }
                     break;
                 }
@@ -114,7 +119,7 @@ public class CommandListener extends ListenerAdapter {
         }
 
         if (!ran && e.getMessage().getContentRaw().startsWith(Command.getOptions().getPrefix())) {
-            Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorUnknown());
+            Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorUnknown()).queue();
         }
     }
 }

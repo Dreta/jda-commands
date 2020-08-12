@@ -42,16 +42,18 @@ public class PingCommand extends Command {
     }
 
     @CommandPath("me")
-    public void me(Message message) {  // Can also be static if desired.
+    public static void me(Message message) {  // Can also be static if desired.
         message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!").queue();
     }
 
     @CommandPath("you")
-    public void you(Message message, Member who) {
+    public static void you(Message message, Member who) {
         message.getTextChannel().sendMessage(who.getAsMention() + ", pong!").queue();
     }
 }
 ```
+
+The method must be always static - the command should NOT have anything that depends on their instance.
 
 After done creating the commands, I will need to `new` them. Keep in mind that `new`ing the commands must be done after `init`ing the API.
 
@@ -74,7 +76,7 @@ I can also use multiple classes for one command, which might be better when I ha
 
 public class PingYou {
     @CommandPath("you")
-    public void you(Message message, Member who) {
+    public static void you(Message message, Member who) {
         message.getTextChannel().sendMessage(who.getAsMention() + ", pong!").queue();
     }
 }
@@ -98,7 +100,7 @@ public class PingCommand extends Command {
     }
 
     @CommandPath("me")
-    public void me(Message message) {  // Can also be static if desired.
+    public static void me(Message message) {  // Can also be static if desired.
         message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!").queue();
     }
 }
