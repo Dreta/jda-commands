@@ -69,7 +69,7 @@ public class Options {
      */
     @Builder.Default
     @Getter
-    private final String errorUnknown = "Unknown Command!";  // TODO
+    private final String errorUnknown = "Unknown Command!";
     /**
      * The message to send when the command usage is incorrect.
      */

@@ -24,7 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.List;
 
-/**
+/**T
  * Each {@link io.github.dretacbe.jdacommands.Command} has multiple paths to it - also known as routes.
  * Each of the paths in the command is a different usage for it. For example, a command might have the
  * following paths:
