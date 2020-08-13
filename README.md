@@ -4,8 +4,10 @@ JDA-Commands is a wrapper around JDA to offer fast command creation.
 ## Usage
 
 The following gateway intents are required:
- * GUILD_MESSAGES
- * DIRECT_MESSAGES
+ * `GatewayIntent.GUILD_MESSAGES`
+ * `GatewayIntent.DIRECT_MESSAGES`
+
+You might also want `GatewayIntent.GUILD_MEMBERS` if you intend to use `MembersArgument`.
 
 You need to add `new CommandListener()` listener to your `JDA` before the commands will start working.
 
