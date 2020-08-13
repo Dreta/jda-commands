@@ -18,6 +18,8 @@
 
 package io.github.dretacbe.jdacommands.annotations;
 
+import net.dv8tion.jda.api.entities.ChannelType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,7 +29,7 @@ import java.lang.annotation.Target;
  * If you annotate any subclass of {@link io.github.dretacbe.jdacommands.Command} or a command path method
  * with {@link CommandChannel}, then the command will only be able to be executed in that specified channel.
  * <p>
- * You can also specify {@link #allowDM} to set whether this command/path can be executed in the DM.
+ * You can also specify {@link #channels()} to set the allowed channel types for this command.
  * <p>
  * Only guild channels are supported as of the moment.
  */
@@ -35,16 +37,16 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface CommandChannel {
     /**
-     * The snowflake of the channel
+     * The snowflake of the channels
      *
-     * @return The snowflake
+     * @return The snowflakes
      */
-    String value() default "";
+    String[] value() default {""};
 
     /**
-     * Whether this command/path can be executed in the DM.
+     * The channels that the command can be executed in
      *
-     * @return Allow DM
+     * @return The channels (type)
      */
-    boolean allowDM() default true;
+    ChannelType[] channels() default {ChannelType.TEXT, ChannelType.PRIVATE};
 }

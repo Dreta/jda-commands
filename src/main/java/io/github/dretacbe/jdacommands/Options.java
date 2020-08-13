@@ -35,11 +35,17 @@ public class Options {
     @Getter
     private final String errorPrefix = "Error: ";
     /**
-     * The message to send when a command can't be executed in a private channel.
+     * The message to send when a command can't be executed in a specific channel type.
      */
     @Builder.Default
     @Getter
-    private final String errorDM = "This command can't be executed in a private channel!";
+    private final String errorChannelType = "This command can only be executed in %s channels.";
+    /**
+     * The message to send when a command can't be executed in a DM channel.
+     */
+    @Builder.Default
+    @Getter
+    private final String errorDM = "This command can't be executed in a private channel.";
     /**
      * The message to send when a command must be executed in a specific channel.
      */

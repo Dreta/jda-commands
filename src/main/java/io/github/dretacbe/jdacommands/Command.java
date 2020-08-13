@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -189,28 +188,14 @@ public abstract class Command {
     }
 
     /**
-     * Get the channel of the command from the {@link CommandChannel} annotation.
+     * Get the valid channel types from the {@link CommandChannel} annotation.
      *
-     * @return Channel
-     * @implNote The channel represents the channel that is annotated on the CLASS, instead of individual methods!
+     * @return Valid channel types
      */
-    @Nullable
-    public GuildChannel getChannel() {
+    public ChannelType[] getChannelTypes() {
         if (getClass().isAnnotationPresent(CommandChannel.class)) {
-            return getOptions().getGuild().getGuildChannelById(getClass().getAnnotation(CommandChannel.class).value());
+            return getClass().getAnnotation(CommandChannel.class).channels();
         }
-        return null;
-    }
-
-    /**
-     * Get whether this command/path is allowed in the DM from the {@link CommandChannel} annotation.
-     *
-     * @return Allow DM
-     */
-    public boolean isAllowDM() {
-        if (getClass().isAnnotationPresent(CommandChannel.class)) {
-            return getClass().getAnnotation(CommandChannel.class).allowDM();
-        }
-        return false;
+        return new ChannelType[0];
     }
 }

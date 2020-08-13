@@ -92,7 +92,7 @@ public class Path {
     }
 
     /**
-     * This method
+     * This method parses the argument from a message object and returns a list of arguments to pass into the method.
      *
      * @param message The message object from the {@link net.dv8tion.jda.api.events.message.MessageReceivedEvent}.
      * @return The parsed arguments, including the message object
@@ -109,11 +109,14 @@ public class Path {
 
         if (method.isAnnotationPresent(CommandChannel.class)) {
             CommandChannel annotation = method.getAnnotation(CommandChannel.class);
-            if (!annotation.allowDM() && message.getChannelType() == ChannelType.PRIVATE) {
-                throw new ArgumentParseException(Command.getOptions().getErrorDM());
+            if (!Arrays.asList(annotation.channels()).contains(message.getChannelType())) {
+                throw new ArgumentParseException(String.format(Command.getOptions().getErrorChannelType(),
+                        Arrays.stream(annotation.channels()).map(s -> s.toString().toLowerCase()).collect(Collectors.joining(", "))));
             }
-            if (!annotation.value().isEmpty() && !message.getChannel().getId().equals(annotation.value())) {
-                throw new ArgumentParseException(String.format(Command.getOptions().getErrorChannel(), Command.getOptions().getGuild().getGuildChannelById(annotation.value()).getName()));
+            if (annotation.value().length != 0 && !Arrays.asList(annotation.value()).contains(message.getChannel().getId())) {
+                throw new ArgumentParseException(
+                        String.format(Command.getOptions().getErrorChannel(),
+                                Arrays.stream(annotation.value()).map(s -> Command.getOptions().getGuild().getGuildChannelById(s).getName()).collect(Collectors.joining(", "))));
             }
         }
 

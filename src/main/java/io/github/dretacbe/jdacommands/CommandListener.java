@@ -61,21 +61,23 @@ public class CommandListener extends ListenerAdapter {
                         }
                     }
 
-                    if (getClass().isAnnotationPresent(CommandChannel.class)) {
-                        CommandChannel annotation = getClass().getAnnotation(CommandChannel.class);
-                        if (!annotation.allowDM() && e.getMessage().getChannelType() == ChannelType.PRIVATE) {  // Check for DM
-                            Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorDM()).queue();
+                    if (command.getClass().isAnnotationPresent(CommandChannel.class)) {
+                        CommandChannel annotation = command.getClass().getAnnotation(CommandChannel.class);
+                        if (!Arrays.asList(annotation.channels()).contains(e.getMessage().getChannelType())) {
+                            Command.sendError(e.getMessage().getTextChannel(), String.format(Command.getOptions().getErrorChannelType(),
+                                    Arrays.stream(annotation.channels()).map(s -> s.toString().toLowerCase()).collect(Collectors.joining(", ")))).queue();
                             return;
                         }
-                        if (!annotation.value().isEmpty() && !e.getMessage().getChannel().getId().equals(annotation.value())) {
+                        if (annotation.value().length != 0 && !Arrays.asList(annotation.value()).contains(e.getMessage().getChannel().getId())) {
                             Command.sendError(e.getMessage().getTextChannel(),  // Check for channel
-                                    String.format(Command.getOptions().getErrorChannel(), Command.getOptions().getGuild().getGuildChannelById(annotation.value()).getName())).queue();
+                                    String.format(Command.getOptions().getErrorChannel(),
+                                            Arrays.stream(annotation.value()).map(s -> Command.getOptions().getGuild().getGuildChannelById(s).getName()).collect(Collectors.joining(", ")))).queue();
                             return;
                         }
                     }
 
-                    if (getClass().isAnnotationPresent(CommandPermissions.class)) {
-                        Permission[] permissions = getClass().getAnnotation(CommandPermissions.class).value();
+                    if (command.getClass().isAnnotationPresent(CommandPermissions.class)) {
+                        Permission[] permissions = command.getClass().getAnnotation(CommandPermissions.class).value();
                         Permission[] serverPerms = Arrays.stream(permissions).filter(Permission::isGuild).toArray(Permission[]::new);
                         Permission[] channelPerms = Arrays.stream(permissions).filter(Permission::isChannel).toArray(Permission[]::new);
                         if (!member.hasPermission(serverPerms)) {  // Check for server permissions
@@ -105,7 +107,7 @@ public class CommandListener extends ListenerAdapter {
                             path.getMethod().invoke(null, result.toArray());
                             return;
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            //ex.printStackTrace();
                             lastError = ex;
                         }
                     }

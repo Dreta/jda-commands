@@ -30,8 +30,8 @@ Now I can start creating commands.
     description = "Ping ping ping!"  // Optional
 )
 @CommandChannel(  // Optional
-    value = "channel snowflake",  // Optional
-    allowDM = true  // Optional
+    value = {"channel snowflake", "channel snowflake 2"},  // Optional
+    channels = {ChannelType.TEXT}  // Optional
 )
 @CommandPermissions({Permission.MESSAGE_READ, Permission.MESSAGE_WRITE})  // Optional
 @CommandAliases("pong")  // Optional

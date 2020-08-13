@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * executing the command must have a Discord permission to run this command.
  *
  * @implNote If you specified any channel permissions in {@link #value()}, then the DM command functionality will be disabled
- * overriding {@link CommandChannel#allowDM()}. Guild permissions will be checked in BOTH DM and Guild, which means
+ * overriding {@link CommandChannel#channels()}. Guild permissions will be checked in BOTH DM and Guild, which means
  * the user must have the permission in the GUILD even if they are using the command in DM.
  */
 @Retention(RetentionPolicy.RUNTIME)
