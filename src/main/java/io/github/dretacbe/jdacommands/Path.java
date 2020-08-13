@@ -26,6 +26,7 @@ import io.github.dretacbe.jdacommands.annotations.CommandRoot;
 import io.github.dretacbe.jdacommands.arguments.Argument;
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 import io.github.dretacbe.jdacommands.arguments.types.GreedyStringArgument;
+import io.github.dretacbe.jdacommands.arguments.types.LiteralArgument;
 import lombok.Data;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -138,7 +139,11 @@ public class Path {
         String[] args = command.split(" ");
         for (int i = 0; i < arguments.size(); i++) {
             Argument argument = arguments.get(i);
-            result.add(argument.getType().parse(args, argument.getName(), i + 1));
+            Object parsed = argument.getType().parse(args, argument.getName(), i + 1);
+            if (argument.getType().getClass() == LiteralArgument.class && !method.getAnnotation(CommandPath.class).literals()) {
+                continue;
+            }
+            result.add(parsed);
         }
         return result;
     }

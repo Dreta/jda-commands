@@ -30,5 +30,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface CommandAliases {
+    /**
+     * The aliases of the command.
+     *
+     * @return Aliases
+     */
     String[] value();
 }

@@ -32,7 +32,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface CommandRoot {
+    /**
+     * The name of the command
+     *
+     * @return Name
+     */
     String name();
 
+    /**
+     * The description of the command
+     *
+     * @return Description
+     */
     String description() default "No description provided";
 }

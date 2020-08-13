@@ -22,6 +22,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.List;
 
 /**
  * Each {@link io.github.dretacbe.jdacommands.Command} has multiple paths to it - also known as routes.
@@ -30,14 +31,28 @@ import java.lang.annotation.Target;
  * !ban [user: {@link io.github.dretacbe.jdacommands.arguments.types.MemberArgument}] [reason: {@link io.github.dretacbe.jdacommands.arguments.types.StringArgument}]
  * !ban [user: {@link io.github.dretacbe.jdacommands.arguments.types.MemberArgument}] [time: {@link io.github.dretacbe.jdacommands.arguments.types.StringArgument}] [timeunit] [reason: {@link io.github.dretacbe.jdacommands.arguments.types.StringArgument}]
  * Each of the paths in the command will have a method mapped to it - the mapped method must be annotated
- * with {@link CommandPath} with the path name that is the same as specified in INSERT ADDPATH REFERENCE.
+ * with {@link CommandPath} with the path name that is the same as specified in {@link io.github.dretacbe.jdacommands.Command#addPath(String, List)}.
  * The method will have all of its arguments passed in directly plus the member that ran the command.
  * e.g. for the first path specified above,
  * {@link net.dv8tion.jda.api.entities.Message} (the message), {@link net.dv8tion.jda.api.entities.Member} (the user) and {@link String} (the reason) will be
  * passed into the method.
+ * <p>
+ * If {@link #literals()} is true, then the literals as strings will be passed in in their respective order as well.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface CommandPath {
+    /**
+     * The name of the path
+     *
+     * @return Name
+     */
     String value();
+
+    /**
+     * Whether or not to include literals during the method execution
+     *
+     * @return Literals
+     */
+    boolean literals() default false;
 }

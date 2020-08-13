@@ -18,6 +18,7 @@
 
 package io.github.dretacbe.jdacommands.arguments.types;
 
+import io.github.dretacbe.jdacommands.annotations.CommandPath;
 import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
 
 /**
@@ -25,7 +26,7 @@ import io.github.dretacbe.jdacommands.arguments.ArgumentParseException;
  * different sub commands.
  * <p>
  * By default the literal string will NOT be passed into the arguments of the calling method
- * unless specified by (INSERT ANNOTATION REFERENCE)
+ * unless specified by {@link CommandPath#literals()}
  */
 public class LiteralArgument implements ArgumentType<String> {
     @Override
