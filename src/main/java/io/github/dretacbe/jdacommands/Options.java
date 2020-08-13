@@ -99,4 +99,10 @@ public class Options {
     @Builder.Default
     @Getter
     private final String prefix = "!";
+    /**
+     * Whether or not to show a "Unknown Command" message when the command couldn't be parsed.
+     */
+    @Builder.Default
+    @Getter
+    private final boolean unknownCommand = false;
 }

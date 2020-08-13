@@ -49,10 +49,11 @@ public class CommandListener extends ListenerAdapter {
             aliases.add(command.getName());
 
             for (String alias : aliases) {
+                // If this is the command to execute
                 if (e.getMessage().getContentRaw().split(" ")[0].equalsIgnoreCase(Command.getOptions().getPrefix() + alias)) {
-                    ran = true;
+                    ran = true;  // Do not show the unknown command message
 
-                    if (command.getMemberPreprocessor() != null) {
+                    if (command.getMemberPreprocessor() != null) {  // Preprocess member
                         String prep = command.getMemberPreprocessor().apply(member);
                         if (prep != null) {
                             Command.sendError(e.getMessage().getTextChannel(), prep).queue();
@@ -62,12 +63,12 @@ public class CommandListener extends ListenerAdapter {
 
                     if (getClass().isAnnotationPresent(CommandChannel.class)) {
                         CommandChannel annotation = getClass().getAnnotation(CommandChannel.class);
-                        if (!annotation.allowDM() && e.getMessage().getChannelType() == ChannelType.PRIVATE) {
+                        if (!annotation.allowDM() && e.getMessage().getChannelType() == ChannelType.PRIVATE) {  // Check for DM
                             Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorDM()).queue();
                             return;
                         }
                         if (!annotation.value().isEmpty() && !e.getMessage().getChannel().getId().equals(annotation.value())) {
-                            Command.sendError(e.getMessage().getTextChannel(),
+                            Command.sendError(e.getMessage().getTextChannel(),  // Check for channel
                                     String.format(Command.getOptions().getErrorChannel(), Command.getOptions().getGuild().getGuildChannelById(annotation.value()).getName())).queue();
                             return;
                         }
@@ -77,16 +78,16 @@ public class CommandListener extends ListenerAdapter {
                         Permission[] permissions = getClass().getAnnotation(CommandPermissions.class).value();
                         Permission[] serverPerms = Arrays.stream(permissions).filter(Permission::isGuild).toArray(Permission[]::new);
                         Permission[] channelPerms = Arrays.stream(permissions).filter(Permission::isChannel).toArray(Permission[]::new);
-                        if (!member.hasPermission(serverPerms)) {
+                        if (!member.hasPermission(serverPerms)) {  // Check for server permissions
                             Command.sendError(e.getMessage().getTextChannel(), String.format(Command.getOptions().getErrorServerPermissions(),
                                     Arrays.stream(serverPerms).map(Permission::getName).collect(Collectors.joining(", ")))).queue();
                             return;
                         }
                         if (channelPerms.length != 0 && e.getMessage().getChannelType() == ChannelType.PRIVATE) {
                             Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorDM()).queue();
-                            return;
+                            return;  // Channel permissions require guild channel
                         }
-                        if (!member.hasPermission((GuildChannel) e.getMessage().getChannel(), channelPerms)) {
+                        if (!member.hasPermission((GuildChannel) e.getMessage().getChannel(), channelPerms)) {  // Check for channel permissions
                             Command.sendError(e.getMessage().getTextChannel(), String.format(Command.getOptions().getErrorChannelPermissions(),
                                     Arrays.stream(channelPerms).map(Permission::getName).collect(Collectors.joining(", ")))).queue();
                             return;
@@ -118,7 +119,7 @@ public class CommandListener extends ListenerAdapter {
             }
         }
 
-        if (!ran && e.getMessage().getContentRaw().startsWith(Command.getOptions().getPrefix())) {
+        if (!ran && e.getMessage().getContentRaw().startsWith(Command.getOptions().getPrefix()) && Command.getOptions().isUnknownCommand()) {
             Command.sendError(e.getMessage().getTextChannel(), Command.getOptions().getErrorUnknown()).queue();
         }
     }
