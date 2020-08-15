@@ -55,7 +55,7 @@ public class PingCommand extends Command {
 }
 ```
 
-The method must be always static - the command should NOT have anything that depends on their instance.
+The method must be always static - the command should NOT have anything that depends on its instance.
 
 After done creating the commands, I will need to `new` them. Keep in mind that `new`ing the commands must be done after `init`ing the API.
 
