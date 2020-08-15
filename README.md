@@ -110,7 +110,7 @@ public class PingCommand extends Command {
 
 As you can see, I can specify the exact class to find methods in when adding paths to the command. Try making the path "me" into a separate class as well!
 
-I won't need to `new` to other class, which is `PingYou` in this case.
+I won't need to `new` the other class, which is `PingYou` in this case.
 
 For a runnable bot you can play around with, go to [Dretacbe](https://github.com/Dretacbe)/**[jda-commands-example](https://github.com/Dretacbe/jda-commands-example)**
 
