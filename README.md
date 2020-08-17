@@ -121,6 +121,3 @@ Just so you know, jda-commands uses Maven 3 for that.
 ```bash
 mvn clean install
 ```
-
-## Buy me a cup of coffee!
-[PayPal](https://paypal.me/yangyang200)
