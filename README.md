@@ -44,7 +44,7 @@ public class PingCommand extends Command {
     }
 
     @CommandPath("me")
-    public static void me(Message message) {  // Can also be static if desired.
+    public static void me(Message message) {  // Must be static
         message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!").queue();
     }
 
@@ -102,7 +102,7 @@ public class PingCommand extends Command {
     }
 
     @CommandPath("me")
-    public static void me(Message message) {  // Can also be static if desired.
+    public static void me(Message message) {  // Must be static.
         message.getTextChannel().sendMessage(message.getMember().getAsMention() + ", pong!").queue();
     }
 }
