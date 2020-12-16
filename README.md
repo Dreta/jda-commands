@@ -1,4 +1,7 @@
 # jda-commands
+
+**Note!** This library is now obsolete with the introduction of Discord slash commands.
+
 JDA-Commands is a wrapper around JDA to offer fast command creation.
 
 ## Usage
